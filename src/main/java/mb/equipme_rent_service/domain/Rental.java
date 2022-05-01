@@ -18,11 +18,14 @@ import java.util.UUID;
 @Entity
 public class Rental {
 
-    public Rental(UUID rentalId, Long rentalPrice, LocalDate rentalStartDate, LocalDate rentalEndDate) {
+    public Rental(UUID rentalId, String upc, Long rentalPrice, LocalDate rentalStartDate, LocalDate rentalEndDate, UUID userId, UUID itemId) {
         this.rentalId = rentalId;
+        this.upc = upc;
         this.rentalPrice = rentalPrice;
         this.rentalStartDate = rentalStartDate;
         this.rentalEndDate = rentalEndDate;
+        this.userId = userId;
+        this.itemId = itemId;
     }
 
     @Id
@@ -32,6 +35,9 @@ public class Rental {
     @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false, name="id")
     private UUID rentalId;
 
+    @Column(name="upc", unique = true)
+    private String upc;
+
     @Column(name="price")
     private Long rentalPrice;
 
@@ -40,4 +46,10 @@ public class Rental {
 
     @Column(name="endDate")
     private LocalDate rentalEndDate;
+
+    @Column(name="userId")
+    private UUID userId;
+
+    @Column(name="itemId")
+    private UUID itemId;
 }
