@@ -2,6 +2,10 @@ package mb.equipme_rent_service.services;
 
 import mb.equipme_rent_service.domain.Rental;
 import mb.equipme_rent_service.repositories.RentalRepository;
+import mb.equipme_rent_service.web.mappers.RentalMapper;
+import mb.equipme_rent_service.web.model.PaymentDto;
+import mb.equipme_rent_service.web.model.RentalDto;
+
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +14,11 @@ import java.util.UUID;
 public class RentalServiceImpl implements RentalService {
 
     private RentalRepository rentalRepository;
+    private RentalMapper mapper;
 
-    public RentalServiceImpl(RentalRepository rentalRepository) {
+    public RentalServiceImpl(RentalRepository rentalRepository, RentalMapper mapper) {
         this.rentalRepository = rentalRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -42,5 +48,10 @@ public class RentalServiceImpl implements RentalService {
     @Override
     public void deleteById(UUID rentalUUID) {
         rentalRepository.deleteById(rentalUUID);
+    }
+
+    @Override
+    public void bookItem(RentalDto rentalDto) {
+        rentalRepository.save(mapper.rentalDtoToRental(rentalDto));
     }
 }

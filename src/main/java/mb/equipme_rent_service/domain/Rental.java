@@ -1,24 +1,25 @@
 package mb.equipme_rent_service.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
 @Builder
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
+@Table(name="rentals")
 public class Rental {
 
-    public Rental(UUID rentalId, String upc, Long rentalPrice, LocalDate rentalStartDate, LocalDate rentalEndDate, UUID userId, UUID itemId) {
+    public Rental(UUID rentalId, String upc, Double rentalPrice, LocalDate rentalStartDate, LocalDate rentalEndDate, UUID userId, UUID itemId) {
         this.rentalId = rentalId;
         this.upc = upc;
         this.rentalPrice = rentalPrice;
@@ -39,7 +40,7 @@ public class Rental {
     private String upc;
 
     @Column(name="price")
-    private Long rentalPrice;
+    private Double rentalPrice;
 
     @Column(name="startDate")
     private LocalDate rentalStartDate;
@@ -52,4 +53,8 @@ public class Rental {
 
     @Column(name="itemId")
     private UUID itemId;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "payment_id", referencedColumnName = "id")
+    private Payment payment;
 }

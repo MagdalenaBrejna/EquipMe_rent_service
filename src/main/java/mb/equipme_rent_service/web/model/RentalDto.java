@@ -18,7 +18,7 @@ public class RentalDto {
     private String upc;
 
     @JsonProperty("rentalPrice")
-    private Long rentalPrice;
+    private Double rentalPrice;
 
     @JsonProperty("rentalStartDate")
     private LocalDate rentalStartDate;
